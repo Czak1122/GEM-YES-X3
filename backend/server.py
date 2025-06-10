@@ -114,10 +114,23 @@ async def health_check():
     return {"status": "healthy", "service": "Nokia Games Platform API"}
 
 # ==================== GAME ENDPOINTS ====================
+def serialize_doc(doc):
+    """Convert MongoDB document to JSON serializable format"""
+    if doc is None:
+        return None
+    if isinstance(doc, list):
+        return [serialize_doc(item) for item in doc]
+    if isinstance(doc, dict):
+        if "_id" in doc:
+            doc.pop("_id")  # Remove MongoDB ObjectId
+        return {key: serialize_doc(value) for key, value in doc.items()}
+    return doc
+
 @app.get("/api/games")
 async def get_games():
     """Get all active games"""
     games = await games_collection.find({"is_active": True}).to_list(100)
+    games = serialize_doc(games)
     return {"games": games}
 
 @app.get("/api/games/{game_id}")
