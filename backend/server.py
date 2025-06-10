@@ -240,7 +240,7 @@ async def get_user_game_states(user_id: str, game_id: str):
         "game_id": game_id
     }).sort("slot_number", 1).to_list(10)
     
-    return {"saves": saves}
+    return {"saves": serialize_doc(saves)}
 
 @app.get("/api/game-states/{user_id}/{game_id}/{slot_number}")
 async def load_game_state(user_id: str, game_id: str, slot_number: int):
