@@ -164,7 +164,8 @@ async def register_user(user_data: UserRegistration):
     await users_collection.insert_one(new_user)
     
     # Return user without password
-    new_user.pop("password_hash")
+    new_user = serialize_doc(new_user)
+    new_user.pop("password_hash", None)
     return {"user": new_user, "message": "User registered successfully"}
 
 @app.post("/api/users/login")
