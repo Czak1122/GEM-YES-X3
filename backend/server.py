@@ -321,7 +321,7 @@ async def get_leaderboard(game_id: str, limit: int = 10):
     ]
     
     leaderboard = await users_collection.aggregate(pipeline).to_list(limit)
-    return {"leaderboard": leaderboard}
+    return {"leaderboard": serialize_doc(leaderboard)}
 
 # ==================== ADMIN ENDPOINTS ====================
 @app.get("/api/admin/users")
