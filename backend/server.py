@@ -230,7 +230,7 @@ async def save_game_state(save_request: SaveGameRequest, user_id: str = "demo-us
         await game_states_collection.insert_one(save_data)
         message = f"Game saved to slot {save_request.slot_number}"
     
-    return {"message": message, "save_data": save_data}
+    return {"message": message, "save_data": serialize_doc(save_data)}
 
 @app.get("/api/game-states/{user_id}/{game_id}")
 async def get_user_game_states(user_id: str, game_id: str):
