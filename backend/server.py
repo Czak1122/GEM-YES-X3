@@ -139,7 +139,7 @@ async def get_game(game_id: str):
     game = await games_collection.find_one({"id": game_id})
     if not game:
         raise HTTPException(status_code=404, detail="Game not found")
-    return game
+    return serialize_doc(game)
 
 # ==================== USER ENDPOINTS ====================
 @app.post("/api/users/register")
