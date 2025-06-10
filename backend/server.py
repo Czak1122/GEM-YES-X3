@@ -257,7 +257,7 @@ async def load_game_state(user_id: str, game_id: str, slot_number: int):
     if not save:
         raise HTTPException(status_code=404, detail="Save not found")
     
-    return save
+    return serialize_doc(save)
 
 @app.delete("/api/game-states/{user_id}/{game_id}/{slot_number}")
 async def delete_game_state(user_id: str, game_id: str, slot_number: int):
