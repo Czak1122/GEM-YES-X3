@@ -176,7 +176,8 @@ async def login_user(login_data: UserLogin):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
     # Return user without password
-    user.pop("password_hash")
+    user = serialize_doc(user)
+    user.pop("password_hash", None)
     return {"user": user, "message": "Login successful"}
 
 @app.get("/api/users/{user_id}/profile")
