@@ -1,38 +1,120 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Nokia Screen Effect */
+.nokia-screen {
+  background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+  box-shadow: 
+    inset 0 0 20px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(0, 255, 0, 0.1);
+}
+
+/* Nokia Button Styling */
+.nokia-btn {
+  @apply bg-gray-700 hover:bg-gray-600 text-green-400 
+         w-10 h-10 rounded border border-gray-500
+         flex items-center justify-center font-mono text-lg
+         transition-all duration-100 active:scale-95;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.nokia-btn:active {
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Retro Green Glow */
+.text-green-400 {
+  text-shadow: 0 0 5px rgba(74, 222, 128, 0.5);
+}
+
+/* Pixelated Canvas */
+canvas {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* App Background */
 .App {
-    text-align: center;
+  background: radial-gradient(circle at center, #111827, #000000);
+  min-height: 100vh;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* Custom Scrollbar for retro feel */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+::-webkit-scrollbar-track {
+  background: #1f2937;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+::-webkit-scrollbar-thumb {
+  background: #4ade80;
+  border-radius: 4px;
 }
 
-.App-link {
-    color: #61dafb;
+::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Retro font styling */
+.font-mono {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+}
+
+/* Animation for game over */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+/* Nokia screen bezel effect */
+.nokia-screen::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #333, #555, #333);
+  border-radius: 12px;
+  z-index: -1;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 640px) {
+  .nokia-screen {
+    transform: scale(0.9);
+  }
+  
+  .nokia-btn {
+    @apply w-8 h-8 text-sm;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .text-green-400 {
+    color: #00ff00;
+  }
+  
+  .bg-gray-800 {
+    background-color: #000000;
+  }
+  
+  .border-gray-600 {
+    border-color: #ffffff;
+  }
 }
