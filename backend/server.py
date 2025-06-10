@@ -329,6 +329,7 @@ async def get_all_users():
     """Get all users (admin only)"""
     users = await users_collection.find({}).to_list(100)
     # Remove passwords from response
+    users = serialize_doc(users)
     for user in users:
         user.pop("password_hash", None)
     return {"users": users}
