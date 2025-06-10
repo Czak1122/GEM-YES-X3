@@ -77,36 +77,64 @@ game_states_collection = db.game_states
 @app.on_event("startup")
 async def startup_event():
     """Initialize the database with default data"""
-    # Create default Snake game entry
-    snake_game = {
-        "id": "snake-game",
-        "name": "Snake",
-        "description": "Classic Nokia Snake game",
-        "is_active": True,
-        "created_at": datetime.utcnow()
-    }
+    # Create default games
+    default_games = [
+        {
+            "id": "snake-game",
+            "name": "Snake",
+            "description": "Classic Nokia Snake game",
+            "is_active": True,
+            "created_at": datetime.utcnow()
+        },
+        {
+            "id": "tetris-game",
+            "name": "Tetris",
+            "description": "Stack falling blocks to clear lines",
+            "is_active": True,
+            "created_at": datetime.utcnow()
+        },
+        {
+            "id": "pong-game",
+            "name": "Pong",
+            "description": "Classic paddle ball game",
+            "is_active": True,
+            "created_at": datetime.utcnow()
+        }
+    ]
     
-    # Check if Snake game already exists
-    existing_game = await games_collection.find_one({"id": "snake-game"})
-    if not existing_game:
-        await games_collection.insert_one(snake_game)
-        print("✅ Snake game initialized in database")
+    for game in default_games:
+        existing_game = await games_collection.find_one({"id": game["id"]})
+        if not existing_game:
+            await games_collection.insert_one(game)
+            print(f"✅ {game['name']} game initialized in database")
     
-    # Create a default admin user (for testing)
-    admin_user = {
-        "id": "admin-user",
-        "username": "admin",
-        "email": "admin@nokia.com",
-        "password_hash": "admin123",  # In production, use proper hashing
-        "is_admin": True,
-        "created_at": datetime.utcnow(),
-        "high_scores": {}
-    }
+    # Create default users
+    default_users = [
+        {
+            "id": "admin-user",
+            "username": "admin",
+            "email": "admin@nokia.com",
+            "password_hash": "admin123",  # In production, use proper hashing
+            "is_admin": True,
+            "created_at": datetime.utcnow(),
+            "high_scores": {}
+        },
+        {
+            "id": "demo-user",
+            "username": "Demo Player",
+            "email": "demo@nokia.com",
+            "password_hash": "demo",
+            "is_admin": False,
+            "created_at": datetime.utcnow(),
+            "high_scores": {}
+        }
+    ]
     
-    existing_admin = await users_collection.find_one({"email": "admin@nokia.com"})
-    if not existing_admin:
-        await users_collection.insert_one(admin_user)
-        print("✅ Admin user created: admin@nokia.com / admin123")
+    for user in default_users:
+        existing_user = await users_collection.find_one({"email": user["email"]})
+        if not existing_user:
+            await users_collection.insert_one(user)
+            print(f"✅ {user['username']} user created: {user['email']} / {user['password_hash']}")
 
 # ==================== HEALTH CHECK ====================
 @app.get("/api/health")
